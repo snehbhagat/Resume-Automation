@@ -43,10 +43,9 @@ Create a .env file (or update the script) with your credentials:
 
 📌 Running the System
 1️⃣ Start the Automated Pipeline
-bash
-Copy
-Edit
-python auto_resume_pipeline.py
+
+python final.py
+
 ✅ Fetches new resumes from email
 ✅ Saves them locally
 ✅ Uploads to Google Drive (avoids duplicates)
@@ -55,10 +54,9 @@ python auto_resume_pipeline.py
 ✅ Runs every 5 minutes
 
 2️⃣ Run the Streamlit Dashboard
-bash
-Copy
-Edit
+
 streamlit run dashboard.py
+
 ✅ View all applicants
 ✅ Search by Name, Email, or Phone
 ✅ Download applicant data in CSV/Excel
