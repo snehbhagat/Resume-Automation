@@ -1,4 +1,4 @@
-# Python
+# 🐍 Python
 __pycache__/
 *.py[cod]
 *$py.class
@@ -16,24 +16,32 @@ parts/
 sdist/
 var/
 wheels/
+pip-wheel-metadata/
 *.egg-info/
 .installed.cfg
 *.egg
+__pypackages__/
 
-# Environment variables
+# 🌱 Virtual Environments
+.venv/
+venv/
+env/
+ENV/
+
+# 🔐 Environment & Credentials
 .env
-
-# Credentials
+credentials.json
 credential_sheet.json
 credential.json
-Credentials
+Credentials/
 
-# Local folders
+# 📁 Local Folders (Temporary)
 Resume/
-processed_files.txt
+processed_files.txt  # Consider tracking if needed
 
-# IDE specific files
+# 💡 IDE Specific
 .idea/
 .vscode/
 *.swp
 .DS_Store
+Thumbs.db

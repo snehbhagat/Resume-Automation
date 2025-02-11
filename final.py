@@ -42,14 +42,14 @@ class ResumeProcessor:
         try:
             # Drive API setup
             drive_creds = Credentials.from_service_account_file(
-                "credential.json", 
+                "credentials.json", 
                 scopes=self.SCOPES_DRIVE
             )
             self.drive_service = build("drive", "v3", credentials=drive_creds)
             
             # Sheets API setup
             sheets_creds = Credentials.from_service_account_file(
-                "credential_sheet.json", 
+                "credentials.json", 
                 scopes=self.SCOPES_SHEETS
             )
             client = gspread.authorize(sheets_creds)

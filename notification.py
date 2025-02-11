@@ -12,7 +12,7 @@ load_dotenv()
 
 # ✅ Step 1: Set Up Google Sheets API
 SCOPES = ["https://www.googleapis.com/auth/spreadsheets"]
-SERVICE_ACCOUNT_FILE = "credential_sheet.json"  # Ensure this file exists
+SERVICE_ACCOUNT_FILE = "credentials.json"  # Ensure this file exists
 
 # Authenticate Google Sheets API
 creds = Credentials.from_service_account_file(SERVICE_ACCOUNT_FILE, scopes=SCOPES)

@@ -9,7 +9,7 @@ load_dotenv()
 
 # ✅ Step 1: Authenticate with Google Drive API
 SCOPES = ["https://www.googleapis.com/auth/drive.file"]
-SERVICE_ACCOUNT_FILE = os.getenv("DRIVE_CREDENTIALS", "credential.json")  # Ensure this file exists
+SERVICE_ACCOUNT_FILE = os.getenv("DRIVE_CREDENTIALS", "credentials.json")  # Ensure this file exists
 
 creds = Credentials.from_service_account_file(SERVICE_ACCOUNT_FILE, scopes=SCOPES)
 drive_service = build("drive", "v3", credentials=creds)

@@ -5,7 +5,7 @@ from google.oauth2.service_account import Credentials
 
 # ✅ Step 1: Authenticate and Fetch Data from Google Sheets
 SCOPES = ["https://www.googleapis.com/auth/spreadsheets"]
-SERVICE_ACCOUNT_FILE = "credential_sheet.json"  # Ensure this file exists in your project folder
+SERVICE_ACCOUNT_FILE = "credentials.json"  # Ensure this file exists in your project folder
 
 # Authenticate Google Sheets API
 creds = Credentials.from_service_account_file(SERVICE_ACCOUNT_FILE, scopes=SCOPES)

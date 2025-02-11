@@ -17,8 +17,8 @@ SCOPES_DRIVE = ["https://www.googleapis.com/auth/drive"]
 SCOPES_SHEETS = ["https://www.googleapis.com/auth/spreadsheets"]
 
 # Load credentials from environment variables
-DRIVE_CREDENTIALS = os.getenv("DRIVE_CREDENTIALS", "credential.json")
-SHEETS_CREDENTIALS = os.getenv("SHEETS_CREDENTIALS", "credential_sheet.json")
+DRIVE_CREDENTIALS = os.getenv("DRIVE_CREDENTIALS", "credentials.json")
+SHEETS_CREDENTIALS = os.getenv("SHEETS_CREDENTIALS", "credentials.json")
 SHEET_ID = os.getenv("SHEET_ID")
 DRIVE_FOLDER_ID = os.getenv("DRIVE_FOLDER_ID")
 
