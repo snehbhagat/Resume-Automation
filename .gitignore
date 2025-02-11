@@ -24,8 +24,9 @@ wheels/
 .env
 
 # Credentials
-credential.json
 credential_sheet.json
+credential.json
+Credentials
 
 # Local folders
 Resume/
