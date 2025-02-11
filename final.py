@@ -12,13 +12,17 @@ import re
 from io import BytesIO
 import pdfplumber
 import time
+from dotenv import load_dotenv
+
+# Load environment variables
+load_dotenv()
 
 class ResumeProcessor:
     def __init__(self):
-        # Configuration
-        self.LOCAL_FOLDER = "Resume"
-        self.DRIVE_FOLDER_ID = "1UYzFDDRaS__DucpWXU4Ul2r2rpbz0AH2"
-        self.SHEET_ID = "1Mx674i2GPSTl2LK280ou4yyfgBHcmg42bV76YJ6iYTQ"
+        # Configuration from environment variables
+        self.LOCAL_FOLDER = os.getenv('LOCAL_FOLDER', 'Resume')
+        self.DRIVE_FOLDER_ID = os.getenv('DRIVE_FOLDER_ID')
+        self.SHEET_ID = os.getenv('SHEET_ID')
         
         # API Scopes
         self.SCOPES_DRIVE = ["https://www.googleapis.com/auth/drive"]
@@ -294,9 +298,12 @@ class ResumeProcessor:
             return False
 
 def main():
-    # Gmail credentials
-    EMAIL = "snehbhagat12@gmail.com"
-    PASSWORD = "obzh dxyu xfgq myiy"
+    # Get credentials from environment variables
+    EMAIL = os.getenv('EMAIL')
+    PASSWORD = os.getenv('PASSWORD')
+    
+    if not all([EMAIL, PASSWORD]):
+        raise ValueError("Missing required environment variables. Please check your .env file.")
     
     # Initialize processor
     processor = ResumeProcessor()

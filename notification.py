@@ -5,6 +5,10 @@ import re
 import os
 from email.mime.text import MIMEText
 from google.oauth2.service_account import Credentials
+from dotenv import load_dotenv
+
+# Load environment variables (Ensure you have a .env file)
+load_dotenv()
 
 # ✅ Step 1: Set Up Google Sheets API
 SCOPES = ["https://www.googleapis.com/auth/spreadsheets"]
@@ -20,13 +24,17 @@ sheet = client.open_by_key(SHEET_ID).sheet1
 
 print("✅ Google Sheets API authentication successful!")
 
-# ✅ Step 2: Email Notification Setup
-HR_EMAIL = "snehkumar.bhagat2022@vitstudent.ac.in"  # HR Email
-SENDER_EMAIL = "snehbhagat12@gmail.com"  # Your Gmail
-SENDER_PASSWORD = "obzh dxyu xfgq myiy"  # App Password from Google (NOT your real password)
+# ✅ Step 2: Email Notification Setup (Now using Environment Variables)
+HR_EMAIL = os.getenv("HR_EMAIL")  # HR Email
+SENDER_EMAIL = os.getenv("SENDER_EMAIL")  # Your Gmail
+SENDER_PASSWORD = os.getenv("SENDER_PASSWORD")  # Secure App Password
 
 # Function to send an email notification
 def send_email_notification(applicant):
+    if not SENDER_EMAIL or not SENDER_PASSWORD:
+        print("⚠️ Email credentials missing! Skipping email notification.")
+        return
+
     subject = f"New Job Application: {applicant['Name']}"
     body = f"""
     A new job application has been received.
@@ -78,18 +86,20 @@ def extract_text_from_pdf(pdf_path):
 # ✅ Step 6: Function to Extract Name, Email, Phone from Text
 def extract_details(text):
     email_pattern = r"[a-zA-Z0-9+_.-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]+"
-    phone_pattern = r"\+?\d{1,3}[-.\s]?\d{3}[-.\s]?\d{3,4}[-.\s]?\d{3,4}"
+    phone_pattern = r"\+?\d{1,3}[-.\s]?\(?\d{2,5}\)?[-.\s]?\d{3,4}[-.\s]?\d{3,4}"
 
     email = re.findall(email_pattern, text)
     phone = re.findall(phone_pattern, text)
 
-    # Extracting name: Assuming name is in the first 5 lines
-    name_lines = text.split("\n")[:5]
+    # Improved Name Extraction
     name = "N/A"
+    name_lines = text.split("\n")[:5]
     for line in name_lines:
-        if len(line.split()) >= 2:
-            name = line.strip()
-            break
+        words = line.strip().split()
+        if len(words) >= 2 and all(w[0].isupper() for w in words if w.isalpha()):
+            if "Resume" not in line and "Curriculum Vitae" not in line:
+                name = line.strip()
+                break
 
     return {"Name": name, "Email": email[0] if email else "N/A", "Phone": phone[0] if phone else "N/A"}
 

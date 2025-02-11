@@ -7,14 +7,20 @@ import re
 from io import BytesIO
 import pdfplumber
 from googleapiclient.http import MediaIoBaseDownload
+from dotenv import load_dotenv
+
+# Load environment variables
+load_dotenv()
 
 # ✅ Step 1: Authenticate Google Drive & Google Sheets APIs
 SCOPES_DRIVE = ["https://www.googleapis.com/auth/drive"]
 SCOPES_SHEETS = ["https://www.googleapis.com/auth/spreadsheets"]
 
-# Separate credentials for Drive & Sheets
-DRIVE_CREDENTIALS = "credential.json"
-SHEETS_CREDENTIALS = "credential_sheet.json"
+# Load credentials from environment variables
+DRIVE_CREDENTIALS = os.getenv("DRIVE_CREDENTIALS", "credential.json")
+SHEETS_CREDENTIALS = os.getenv("SHEETS_CREDENTIALS", "credential_sheet.json")
+SHEET_ID = os.getenv("SHEET_ID")
+DRIVE_FOLDER_ID = os.getenv("DRIVE_FOLDER_ID")
 
 # Authenticate with Google Drive API
 drive_creds = Credentials.from_service_account_file(DRIVE_CREDENTIALS, scopes=SCOPES_DRIVE)
@@ -25,7 +31,6 @@ sheets_creds = Credentials.from_service_account_file(SHEETS_CREDENTIALS, scopes=
 client = gspread.authorize(sheets_creds)
 
 # Open Google Sheet
-SHEET_ID = "1Mx674i2GPSTl2LK280ou4yyfgBHcmg42bV76YJ6iYTQ"  # Replace with actual Sheet ID
 sheet = client.open_by_key(SHEET_ID).sheet1  # First sheet
 
 # ✅ Step 2: Ensure Headers Exist in Google Sheets
@@ -154,7 +159,9 @@ def process_drive_resumes(uploaded_files):
 
 # ✅ Step 11: Run the Complete Pipeline
 LOCAL_FOLDER = "./Resume"  # Folder where resumes are stored locally
-DRIVE_FOLDER_ID = "1UYzFDDRaS__DucpWXU4Ul2r2rpbz0AH2"  # Google Drive Folder ID
+
+if not SHEET_ID or not DRIVE_FOLDER_ID:
+    raise ValueError("Missing required environment variables: SHEET_ID or DRIVE_FOLDER_ID")
 
 uploaded_files = upload_all_resumes(LOCAL_FOLDER, DRIVE_FOLDER_ID)  # Upload resumes to Drive
 process_drive_resumes(uploaded_files)  # Extract details & save to Sheets

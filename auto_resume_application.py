@@ -3,6 +3,10 @@ import imaplib
 import os
 from email.header import decode_header
 import datetime
+from dotenv import load_dotenv
+
+# Load environment variables
+load_dotenv()
 
 def fetch_attachments(email_address, password, search_criteria='(SUBJECT "Job Application")', folder="Resume"):
     """
@@ -106,9 +110,12 @@ def fetch_attachments(email_address, password, search_criteria='(SUBJECT "Job Ap
 
 # Example usage
 if __name__ == "__main__":
-    EMAIL = "snehbhagat12@gmail.com"
-    PASSWORD = "obzh dxyu xfgq myiy"  # Use app-specific password for Gmail
+    EMAIL = os.getenv("EMAIL")
+    PASSWORD = os.getenv("PASSWORD")
     
+    if not EMAIL or not PASSWORD:
+        raise ValueError("Missing EMAIL or PASSWORD in environment variables")
+
     # Different search criteria examples:
     SEARCH_OPTIONS = {
         'job_applications': '(SUBJECT "Job Application")',
